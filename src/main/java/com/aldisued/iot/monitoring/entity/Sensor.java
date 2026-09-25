@@ -1,10 +1,14 @@
 package com.aldisued.iot.monitoring.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
 import java.util.Objects;
@@ -22,7 +26,14 @@ public class Sensor {
   private String name;
 
   @Column(nullable = false)
+  @Enumerated(EnumType.STRING)
   private SensorType type;
+
+  @OneToMany(mappedBy = "sensor", cascade = CascadeType.ALL)
+  private List<Alert> alerts;
+
+  @OneToMany(mappedBy = "sensor", cascade = CascadeType.ALL)
+  private List<SensorReading> sensorReadings;
 
   public Sensor() {}
 
@@ -56,22 +67,20 @@ public class Sensor {
   }
 
   public List<Alert> getAlerts() {
-    //TODO: Task 2
-    return null;
+    return this.alerts;
   }
 
   public void setAlerts(List<Alert> alerts) {
-    //TODO: Task 2
+    this.alerts = alerts;
   }
 
   public List<SensorReading> getSensorReadings() {
-    //TODO: Task 2
-    return null;
+    return this.sensorReadings;
   }
 
   public void setSensorReadings(
       List<SensorReading> sensorReadings) {
-    //TODO: Task 2
+    this.sensorReadings = sensorReadings;
   }
 
   @Override
